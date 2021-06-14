@@ -1,0 +1,183 @@
+Baskoro Adi Wicaksono
+18219113
+
+ADT SET
+
+Kamus Umum
+constant MaxEl: integer = ... { Banyaknya elemen maksimum }
+type infotype: integer { elemen set }
+type address: integer { indeks tabel }
+type Set:
+⟨ T: array [0..MaxEl-1] of infotype, { tabel penyimpan elemen set }
+NbElmt: integer { jumlah elemen set }
+⟩
+{ Deklarasi: S: Set
+Definisi akses (diimplementasikan sebagai selektor):
+NbMember(S) adalah S.NbElmt }
+
+procedure Insert(input ElmtS: infotype, input S:Set, output S:Set)
+{ Menambahkankan ElmtS ke S, jika ElmtS belum terdapat di dalam S (kasus terurut nilai}
+{I.S. Set S sudah terdefinisi dan tidak mungkin penuh tetapi mungkin kosong}
+{F.S. Set S ditambahkan elemen baru ElmtS}
+
+ALGORITMA
+
+if IsEmpty(S) then
+	S.T[0] <- ElmtS
+else then
+	if (not(IsMember(S,ElmtS)) then
+		i <- 0
+		while(i <= NBElmt(S) - 1 and ElmtS > S[i])
+			i <- i + 1
+		if i < NBElmt(S) - 1 then
+			j traversal [i..NBElmt(S)-1]
+				S.T[i+1] <- S.T[i]
+			S.T[i] <- ElmtS
+		else then
+			S.T[i] <- ElmtS
+		NBElmt(S) <- NBElmt(S) + 1
+	else then
+		output("Error")
+
+procedure Insert(input ElmtS: infotype, input S:Set, output S:Set)
+{ Menambahkankan ElmtS ke S, jika ElmtS belum terdapat di dalam S (kasus terurut indeks}
+{I.S. Set S sudah terdefinisi dan tidak mungkin penuh tetapi mungkin kosong}
+{F.S. Set S ditambahkan elemen baru ElmtS}
+
+ALGORITMA
+
+if IsEmpty(S) then
+	S.T[0] <- ElmtS
+	
+else then
+	if (not(IsMember(S,ElmtS)) then
+		S.T[NBElmt(S)] = ElmtS
+		NBElmt(S) <- NBElmt(S) + 1
+
+	else then
+		output("Error")
+
+procedure Delete (input/output S:Set, input ElmtS:infotype)
+{ Menghapus ElmtS dari S }
+{I.S. tabel terdefinisi tidak mungkin kosong, mungkin penuh}
+{F.S. ElmtS terhapus dari Set S}
+
+ALGORITMA
+	i <- 0
+	while (i <= NBElmt(S) - 1 and S.T[i] != ElmtS)
+		i <- i + 1
+  	if i < NBElmt(S) - 1 then
+			j traversal [i..NBElmt(S)-1]
+				S.T[i] <- S[i + 1]
+	NBElmt(S) <- NBElmt(S) - 1
+
+function IsMember(input ElmtS:infotype, S:Set, output valid:boolean)
+{Mengembalikan true jika ElmtS adalah member dari S}
+
+ALGORITMA
+i <- 0
+valid <- false
+if(IsEmpty(S)) then
+	-> valid
+else then
+	while (i<=NBElmt(S)-1 and S.T[i] != ElmtS)
+		valid <- false
+	if (i <= NBElmt(S)-1 or S.T[i] = ElmtS) then
+		valid <- true
+	-> valid
+
+function Union (input S1:Set, input S2: Set, output S:Set)
+{Menghasilkan gabungan S1 dan S2}
+
+ALGORITMA
+
+CreateEmpty(S)
+i traversal [0..NBElmt(S1)-1]
+	Insert(S,S1.T[i])
+
+i <- 0
+while (i < NBElmt(S2)-1)
+	if (not (IsMember(S1,S2.T[i])) then
+		Insert(S,S2.T[i])
+	i <- i+1
+-> S
+
+
+ADT SET DENGAN HASH
+
+procedure Insert(input ElmtS: infotype, input S:Set, output S:Set)
+{ Menambahkankan ElmtS ke S, jika ElmtS belum terdapat di dalam S (kasus terurut nilai}
+{I.S. Set S sudah terdefinisi dan tidak mungkin penuh tetapi mungkin kosong}
+{F.S. Set S ditambahkan elemen baru ElmtS}
+
+KAMUS
+i : infotype
+
+ALGORITMA
+i <- hash(ElmtS)
+S.T[i] <- X
+NbMember(S) <- NbMember + 1
+
+procedure Delete (input/output S:Set, input ElmtS:infotype)
+{ Menghapus ElmtS dari S }
+{I.S. tabel terdefinisi tidak mungkin kosong, mungkin penuh}
+{F.S. ElmtS terhapus dari Set S}
+
+KAMUS
+i,count : infotype
+
+ALGORITMA
+	count <- 0
+	i <- Hash(ElmtS)
+	while (i <= NBElmt(S) - 1 and S.T[count] != ElmtS)
+		count <- count + 1
+		i <- (i+1) mod MaxEl
+
+  	if count = MaxEl then
+			->invalid_Infotype
+	else then
+		S.T[count] <- NIL
+		NBElmt(S) <- NBElmt(S) - 1
+
+function IsMember(input ElmtS:infotype, S:Set, output boolean)
+{Mengembalikan true jika ElmtS adalah member dari S}
+
+KAMUS
+i,count : infotype
+
+ALGORITMA
+
+if(IsEmpty(S)) then
+	-> False
+else then
+	count <- 0
+	i <- Hash(ElmtS)
+	while (i <= NBElmt(S) - 1 and S.T[count] != ElmtS)
+		count <- count + 1
+		i <- (i+1) mod MaxEl
+	if(count < MaxEl) then
+		-> True
+	else
+		-> False
+
+function Union (input S1:Set, input S2: Set, output S:Set)
+{Menghasilkan gabungan S1 dan S2}
+
+KAMUS
+i, ctr : infotype
+
+ALGORITMA
+
+CreateEmpty(S)
+ctr traversal [0..NBMember(S1)-1]
+	Insert(S,S1.T[ctr])
+
+ctr <- 0
+i <- Hash(ctr)
+while (i < NBElmt(S2)-1)
+	if (not (IsMember(S1,S2.T[i])) then
+		Insert(S,S2.T[i])
+	i <- (i+1) mod MaxEl
+	ctr <- ctr + 1
+-> S
+

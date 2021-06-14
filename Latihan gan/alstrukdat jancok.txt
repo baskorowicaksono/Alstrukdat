@@ -1,0 +1,197 @@
+1.
+if isEmpty(A) then
+	return True
+else
+	i <- firstIdx, j <- LastIdx
+	while (i <= Length - 1)
+		if (Get(A,i) = Get(A,j) then
+			i <- i + 1
+			j <- j - 1
+	if (i = Length - 1) then
+		return True
+	else
+		return False
+
+2.
+
+ALGORITMA
+MakeList(L)
+i traversal [0..L.Neff-1]
+	L[i] <- L1[i] + L2[i]
+return L
+
+3.
+i <- 0
+while (i<=L1.Neff-1 and Get(L1,i) = Get(L2,i))
+	i <- i + 1
+if (i = L1.Neff-1) then
+	return True
+else
+	return False
+
+4.
+if isEmpty(L) then
+	return InvalidIdx
+else
+	i <- 0
+	while (i <= L.Neff-1 and Get(L,i) != X)
+		i <= i + 1
+	if(i <= L.Neff-1) then
+		return i
+	else
+		return InvalidIdx
+5.
+if isEmpty(L) then
+	return 0
+else
+	count <- 0
+	i traversal [0..L.Neff-1]
+		if (Get(L,i) = X) then
+			count <- count + 1
+	return count
+
+6.
+if isEmpty(L) then
+	L.Neff <- L.Neff + 1
+	L[L.Neff-1] <- X
+else
+	if Search(L,X) = InvalidIdx then
+		L[L.Neff] <- X
+		L.Neff <- L.Neff + 1
+
+7.
+KAMUS LOKAL
+CI <- integer
+ALGORITMA
+CI <- 0
+START
+while (CC != MARK) do
+	if CC = "L" or CC = "l" then
+		ADV	
+		if (CC = "E" or CC = "e") then 
+			CI <- CI + 1
+	ADV
+output(CI)
+
+8.function IsKataSama (K1, K2: Kata) → boolean
+{ Menghasilkan true jika K1 = K2 }
+if K1.Length != K2.Length then
+	return False
+else
+	i <- 0
+	while (i <= K1.Length-1 and K1[i] = K2[i]) do
+		i <- i + 1
+	if (i = K1.Length-1) then
+		return True
+	else
+		return False
+
+9.
+KAMUS UMUM
+{ ***** Mesin lain yang dipakai ***** }
+use MESINKAR
+
+{ ***** Konstanta ***** }
+program KataPertama
+constant Nmax: integer = 50
+constant MARK = character = '.'
+constant BLANK = character = ' '
+
+{ ***** Definisi Type Kata ***** }
+type Kata: < TabKata: array [0..Nmax-1] of character,
+Length: integer >
+{ TabKata adalah tempat penampung/container kata,
+Length menyatakan panjangnya kata }
+
+{ ***** Definisi State Mesin Kata ***** }
+CKata: Kata { kata yang sudah diakuisisi dan akan diproses }
+
+KAMUS LOKAL
+FirstKata : Kata
+
+ALGORITMA
+
+NFirst <- 0
+STARTKATA
+SalinFirst
+while Ckata.length != 0 do
+	if IsKataSama (FirstKata,CKata) then
+		NFirst <- NFirst + 1
+	ADVKATA		
+output(NFirst)
+		
+procedure SalinFirst
+
+KAMUS LOKAL
+i : integer
+
+ALGORITMA
+i ← 0
+repeat
+FirstKata.TabKata[i] ← CC
+ADV
+i ← i + 1
+until (CC = MARK) or (CC = BLANK)
+{ CC = MARK or CC = BLANK }
+FirstKata.Length ← i	
+
+10.
+KAMUS UMUM
+{ ***** Mesin lain yang dipakai ***** }
+use MESINKAR
+
+{ ***** Konstanta ***** }
+program KataPertama
+constant Nmax: integer = 50
+constant BLANK = character = ' '
+
+{ ***** Definisi Type Kata ***** }
+type Kata: < TabKata: array [0..Nmax-1] of character,
+Length: integer >
+{ TabKata adalah tempat penampung/container kata,
+Length menyatakan panjangnya kata }
+
+{ ***** Definisi State Mesin Kata ***** }
+CKata: Kata { kata yang sudah diakuisisi dan akan diproses }
+
+KAMUS LOKAL
+FirstKata : Kata
+
+ALGORITMA
+
+NAnagram <- 0
+STARTKATA
+if not EndKata then
+	SalinFirst
+	ADVKATA
+	while Ckata.length != 0 do
+		if IsAnagram(FirstKata,CKata) then
+			NAnagram <- NAnagram + 1
+		ADVKATA		
+	output(NAnagram)
+else
+	output("Pita karakter kosong")
+
+function IsAnagram(K1, K2:Kata) -> boolean
+
+ALGORITMA
+if K1.Length = K2.Length then
+	i <- 0
+	found <- false
+	while (i <= K1.Length - 1 and found = false) do
+		if (Count(K1.TabKata[i],K1) != Count(K1.TabKata[i],K2)) then
+			found <- True
+		else
+			i <- i + 1
+	-> not found
+else
+	-> False	
+
+function Count(C:character,K:Kata) -> integer
+KAMUS LOKAL
+i, count: integer
+ALGORITMA
+	i traversal[0..K.Length-1]
+		if C = K[i] then
+			count <- count + 1
+-> count

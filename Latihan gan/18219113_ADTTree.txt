@@ -1,0 +1,90 @@
+Baskoro Adi Wicaksono
+18219113
+Latihan ADT Binary Tree
+
+function Search (P: BinTree, X: infotype) → boolean
+{ Mengirimkan true jika ada node dari P yang bernilai X }
+ALGORITMA
+	if (IsTreeEmpty(P)) then
+		-> False
+	else
+		if (Akar(P) = X) then
+			-> True
+		else
+			-> Search(Left(P),X) or Search(Right(P),X)
+
+function IsSkewLeft (P: BinTree) → boolean
+{ Mengirimkan true jika P adalah pohon condong kiri }
+{asumsi bahwa pohon kosong dan pohon 1 elemen adalah pohon condong kiri}
+ALGORITMA
+	if (IsTreeEmpty(P)) then
+		-> True
+	else
+		if (IsOneElmt(P)) then
+			-> True
+		if(IsUnerLeft(P)) then
+			-> IsSkewLeft(Left(P))
+		else
+			-> False
+
+function IsSkewRight (P: BinTree) → boolean
+{ Mengirimkan true jika P adalah pohon condong kanan }
+{asumsi bahwa pohon kosong dan pohon 1 elemen adalah pohon condong kanan}
+ALGORITMA
+	if (IsTreeEmpty(P)) then
+		-> True
+	else
+		if (IsOneElmt(P)) then
+			-> True
+		if(IsUnerRight(P)) then
+			-> IsSkewRight(Right(P))
+		else
+			-> False
+
+
+function Level (P: BinTree, X: infotype) → integer
+{ Mengirimkan level dari node X yang merupakan salah satu daun dari pohon biner P.
+Akar(P) level-nya adalah 1. Pohon P tidak kosong dan elemen-elemennya unik. }
+ALGORITMA
+	if (ÌsOneElmt(P)) then
+		-> 1
+	else
+		if (Search(Left(P),X) then
+			-> 1 + Level(Left(P),X)
+		else
+			-> 1 + Level(Right(P),X)
+
+procedure AddDaun (input/Output P: BinTree,
+input X, Y: infotype,
+input Kiri: boolean)
+
+{ I.S. P tidak kosong, X adalah daun Pohon Biner P }
+{ F.S. P bertambah simpulnya, dengan Y sebagai anak kiri X (jika Kiri), atau sebagai
+anak Kanan X (jika not Kiri). Jika ada lebih dari satu daun bernilai X, Y ditambahkan
+pada daun paling kiri. }
+ALGORITMA
+	if (IsOneElmt(P) and Akar(P) = X) then
+		if (Kiri) then
+			Left(P) <- Tree(Y,Nil,Nil)
+		else
+			Right(P) <- Tree(Y,Nil,Nil)
+	else
+		if (Search(Left(P),X)) then
+			AddDaun(Left(P),X,Y,Kiri)
+		else
+			AddDaun(Right(P),X,Y,Kiri)
+
+procedure DelDaun (input/output P: BinTree, input X: infotype)
+
+{ I.S. P tidak kosong, minimum 1 daun bernilai X }
+{ F.S. Semua daun yang bernilai X dihapus dari P }
+ALGORITMA
+	if (!IsTreeEmpty(P)) then
+		if (IsOneElmt(P) and Akar(P) = X) then
+			Dealokasi(P)
+			P <- Nil
+		else
+			if (Search(Left(P),X)) then
+				DelDaun(Left(P),X)
+			if (Search(Left(P),X)) then
+				DelDaun(Right(P),X)

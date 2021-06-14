@@ -1,0 +1,173 @@
+Baskoro Adi Wicaksono
+18219113
+
+1.
+Deklarasi Struktur data
+constant Nil: integer = -1 { Nil = queue dengan elemen kosong }
+constant MaxEl: integer = 100 { Banyaknya elemen maksimum }
+type infotype: <id : integer, lama : integer> { elemen queue }
+type address: integer
+{ QUEUE dengan Array statik }
+type Queue: ⟨ T: array [0..MaxEl-1] of infotype,
+
+{ tabel penyimpan elemen queue }
+HEAD: address, { alamat HEAD: elemen terdepan }
+COUNT: integer { menghitung total banyaknya elemen pada queue }
+⟩
+
+function IsFull(Q: Queue) → boolean
+{mengirim true jika Q penuh}
+
+{KAMUS LOKAL}
+full : boolean
+
+{ALGORITMA}
+full <- false
+if (COUNT(Q) = MaxEl) then
+	full <- true
+-> full
+		
+procedure Enqueue(input/output Q: Queue, input X: infotype)
+{Proses: menambahkan elemen X pada Q sebagai Tail baru}
+{IS: Q mungkin kosong, Q tidak penuh}
+{FS: X menjadi Tail baru dengan mekanisme circular buffer}
+
+{ALGORITMA}
+if IsEmpty(Q) then
+	Q.HEAD <- 0
+	Q.T[Q.HEAD] <- X 
+else then
+	if Q.(COUNT-1) < (MaxEl -1) then
+		Q.(COUNT-1) <- Q.(COUNT-1) + 1
+		Q.T[Q.(COUNT-1)] <- X
+	else then	{dengan prekondisi bahwa Head(Q) != 0}
+		Q.(COUNT-1) <- 0
+		Q.T[Q.(COUNT-1)] <- X
+
+procedure Dequeue(input/output Q: Queue, output X: infotype)
+{Proses: menghapus elemen X pada Head Q}
+{IS: Q tidak kosong}
+{FS: X adalah nilai elemen Head, Head “bergerak” dengan mekanisme
+ circular buffer. Q mungkin kosong}
+
+{ALGORITMA}
+X <- InfoHead(Q)
+if Q.HEAD = Q.(COUNT-1) then {elemen dalam queue hanyalah 1 elemen}
+	Q.HEAD <- Nil
+else then
+	if Q.HEAD < MaxEl - 1 then
+		Q.HEAD <- Q.HEAD + 1
+	else then	{dengan prekondisi bahwa Tail(Q) != 0
+		Q.HEAD <- 0
+
+2. 
+procedure ProcessRR(input/output Q: Queue, input T: integer)
+{Proses: memproses elemen antrian Q secara round robin}
+{IS: Q tidak kosong, T adalah waktu yang tersedia untuk memproses
+
+setiap elemen}
+
+{FS: elemen E pada posisi HEAD dihapus dari Q.
+
+Jika waktu E ≤ T maka ditampilkan “<id> telah selesai
+diproses”.
+Jika waktu E > T maka E disisipkan kembali sebagai tail Q
+dengan waktu berkurang sebanyak T }
+
+{ALGORITMA}
+input(T)
+if Q.T[Q.HEAD].lama <= T then
+	Dequeue(Q, Q.T[Q.HEAD])
+	output(Q.T[Q.HEAD].id + " telah selesai diproses")
+else then
+	Q.T[Q.HEAD].lama <- Q.T[Q.HEAD].lama - T
+	if Q.(COUNT-1) < MaxEl - 1 then
+		Enqueue(Q, Q.T[Q.HEAD])
+	else	{prekondisi metode circular buffer, dan Head(Q) != 0}
+		Q.(COUNT-1) = 0
+		Q.T[Q.(COUNT-1)] = Q.T[Q.HEAD]
+		
+3. Deklarasi Struktur Data
+constant Nil: integer = -1 { Nil = queue dengan elemen kosong }
+constant MaxEl: integer = 10 { Banyaknya elemen maksimum }
+type infotype: <id: integer, lama: integer> { elemen queue }
+type address: integer
+{ QUEUE dengan Array statik }
+type Queue: ⟨ T: array [0..MaxEl-1] of infotype,
+
+{ tabel penyimpan elemen queue }
+HEAD: address, { alamat HEAD: elemen terdepan }
+TAIL: address { alamat TAIL: elemen terakhir }
+⟩
+
+{ Deklarasi: Q: Queue
+Definisi akses (diimplementasikan sebagai selektor):
+Tab(Q) adalah Q.T,
+Head(Q) adalah Q.HEAD
+InfoHead(Q) adalah Q.T[Q.HEAD]
+Tail(Q) adalah Q.TAIL
+InfoTail(Q) adalah Q.T[Q.TAIL]}
+
+procedure Enqueue(input/output Q: Queue, input X: infotype)
+{Proses: menambahkan elemen X sebagai elemen Q baru, dengan
+memperhatikan lamanya waktu pekerjaan tsb dapat
+diselesaikan. Yaitu pekerjaan yang lebih lama diletakkan
+lebih akhir. Jika ada 2 pekerjaan yang lama waktunya sama,
+pekerjaan terakhir yang baru datang disisipkan lebih
+belakang}
+
+{IS: Q mungkin kosong, Q tidak penuh}
+{FS: X menjadi elemen Q yang baru dengan urutan waktu pekerjaan
+ membesar}
+
+{KAMUS LOKAL}
+filled: boolean
+i, j: integer
+
+{ALGORITMA}
+input(X)
+if isEmpty(Q) then
+	Q.HEAD <- 0
+	Q.T[Q.HEAD] <- X
+else then
+	i <- Q.HEAD
+	filled <- False 
+	if (Tail(Q) = MaxEl-1) then	{Konsekuensinya adalah Q.HEAD != 0, sehingga Q.TAIL != MaxEl}
+		k traversal[Head(Q)..Tail(Q)]
+			Q.T[k - Head(Q)] <- Q.T[k]
+		Q.HEAD <- 0
+		Q.TAIL <- Q.TAIL - (Q.TAIL - Q.HEAD)
+		while (i <= Q.TAIL and filled = False) do
+			if (X.lama < Q.T[i].lama) then  
+				j traversal[i..Q.TAIL]
+					Q.T[j + 1] <- Q.T[j]
+				Q.TAIL <- Q.TAIL + 1
+				Q.T[i] <- X
+				filled <- True 
+
+			else if (X.lama = Q.T[i].lama) then {X.lama = Q.T[i].lama tapi id X lebih besar, maka X akan disisipkan sesudah elemen Q.T[i]}  
+				j traversal[i + 1..Q.TAIL]
+					Q.T[j + 1] <- Q.T[j]
+				Q.TAIL <- Q.TAIL + 1
+				Q.T[i + 1] <- X
+				filled <- True
+
+			else if (X.lama > Q.T[Q.TAIL].lama) then
+				Q.TAIL <- Q.TAIL + 1
+				Q.T[Q.TAIL] <- X
+				filled <- True		
+			i <- i + 1
+
+procedure Dequeue(input/output Q: Queue, output X: infotype)
+{Proses: menghapus elemen pada HEAD, dan menyimpan nilanya pada X}
+{IS: Q tidak kosong}
+{FS: elemen pada HEAD dihapus, dan disimpan nilainya pada X}
+
+{ALGORITMA}
+if Q.HEAD = Q.COUNT then {elemen dalam queue hanyalah 1 elemen}
+	X <- Q.T[Q.HEAD]
+	Q.HEAD <- Nil
+else then
+	X <- Q.T[Q.HEAD]
+	Q.HEAD <- Q.HEAD + 1
+	

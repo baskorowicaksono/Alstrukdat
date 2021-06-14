@@ -1,0 +1,20 @@
+KAMUS
+
+bil, i, j : integer
+
+ALGORITMA
+
+input(bil)
+if (bil <= 0) then
+	output ("tidak ada bilangan prima")
+else if (bil == 1) then
+	output (bil)
+else
+	i traversal [0..bil]
+		if (i > 0) then
+			j traversal [2..i]
+				if ((i % j) == 0) then
+					break
+			else
+				output(i)
+				 

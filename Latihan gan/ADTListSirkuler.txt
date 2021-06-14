@@ -1,0 +1,109 @@
+Baskoro Adi Wicaksono
+18219113
+
+Pada Latihan ini, variasi list linier yang saya pilih adalah
+List Sirkuler
+
+procedure InsertFirst (L : List, X : ElType)
+{I.S. List L terdefinisi 
+ F.S. Menambahkan elemen ber-address P sebagai elemen pertama}
+
+KAMUS LOKAL
+P,last : address
+
+ALGORITMA
+P <- Alokasi(X)
+if (P != Nil) then
+	if (IsEmpty(L)) then
+		P↑.Next <- P
+	else
+		last <- First(L)	
+		while (last↑.Next != First(L)) do
+			last <- last↑.Next
+		P↑.Next <- First(L)
+		last.Next <- P
+	First(L) <- P
+
+procedure InsertAfter (L : List, P : address, Prec : address)
+{/* I.S. Prec pastilah node dari list; P sudah dialokasi */
+/* F.S. Insert P sebagai node sesudah node beralamat Prec */
+/*karena ada Prec, maka prekondisi list tidak kosong*/ }
+
+ALGORITMA
+	P↑.Next <- Prec↑.Next
+	Prec↑.Next <- P
+
+procedure InsertLast (L : List, X : ElType)
+{/* I.S. List L terdefinisi */
+/* F.S. P ditambahkan sebagai elemen terakhir yang baru */}
+
+KAMUS LOKAL
+P, last : address
+
+ALGORITMA
+	if (IsEmpty(L)) then
+		InsertFirst(L,X)
+	else
+		P <- Alokasi(X)
+		if (P != Nil) then
+			last <- First(L)
+			while (last↑.Next != First(L)) do
+				last <- last↑.Next
+			last↑.Next <- P
+			P↑.Next <- First(L)
+
+procedure DeleteFirst (L : List, X : ElType)
+/* I.S. List tidak kosong */
+/* F.S. X adalah elemen pertama list sebelum penghapusan */
+/* Elemen list berkurang satu (mungkin menjadi kosong) */
+/* First element yg baru adalah suksesor elemen pertama yang lama */}
+
+KAMUS LOKAL
+P,last : address
+
+ALGORITMA
+	P <- First(L)
+	X = P↑.Info
+	if (First(L)↑.Next = First(L)) then
+		First(L) <- Nil
+	else
+		last <- First(L)
+		while (last↑.Next) != First(L)) do
+			last <- last↑.Next
+		First(L) <- First(L)↑.Next
+		last↑.Next <- First(L)
+	Dealokasi(P)
+
+procedure DeleteLast(L : List, X : ElType)
+{/* I.S. List tidak kosong */
+/* F.S. X adalah elemen terakhir list sebelum penghapusan */
+/* Elemen list berkurang satu (mungkin menjadi kosong) */
+/* Last element baru adalah predesesor elemen pertama yg lama, jika ada */}
+
+KAMUS LOKAL
+	Last,PrecLast : address
+
+ALGORITMA
+	Last <- First(L)
+	PrecLast <- Nil
+	while (Last↑.Next != First(L)) do
+		PrecLast <- Last
+		Last <- Last↑.Next
+	if (PrecLast = Nil) then
+		First(L) <- Nil
+	else
+		PrecLast↑.Next <- First(L)
+	X <- Last↑.Info
+	Dealokasi(Last)
+
+procedure DeleteAfter (L: List, Pdel: address, Prec: address)
+{/* I.S. List tidak kosong. Prec adalah anggota list.
+Next(Prec)!=Nil */
+/* F.S. Menghapus Next(Prec): */
+/* Pdel adalah alamat elemen list yang dihapus */
+prekondisi list memiliki elemen > 1}
+
+ALGORITMA
+	Pdel <- Next(Prec)
+	Next(Prec) <- Next(Pdel)
+	Dealokasi(Pdel)

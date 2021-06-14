@@ -1,0 +1,60 @@
+Baskoro Adi Wicaksono
+18219113
+
+ADT Tree Bagian 2
+
+function BSearch (P: BinTree, X: infotype) → boolean
+{ Mengirimkan true jika ada node dari P (BST) yang bernilai X }
+KAMUS LOKAL
+	function IsTreeEmpty (P: BinTree) → boolean
+ALGORITMA
+	if (IsTreeEmpty(P)) then
+		-> False
+	else
+		if (Akar(P) = X) then
+			-> True
+		else
+			if (X < Akar(P)) then 
+				BSearch(Left(P),X)
+			else
+				BSearch(Right(P),X)
+
+function IsBTree (P: BinTree) → boolean
+{ Mengirimkan true jika P adalah balanced tree. Asumsi: P tidak kosong}
+KAMUS LOKAL
+	function IsOneElmt (P: BinTree) → boolean
+	function Tinggi (R: BinTree) → integer
+	function NbElmt (P: BinTree) → integer
+	function absolutediff (A: integer, B: integer) -> integer	{nilai mutlak dari pengurangan 2 integer}
+
+ALGORITMA
+	if (IsOneElmt(P)) then
+		-> True
+	else
+		if (absolutediff(Tinggi(Left(P)), Tinggi(Right(P))) <= 1 and absolutediff(NbElmt(Left(P)), NbElmt(Right(P))) <= 1) then
+			-> IsBTree(Left(P)) and IsBTree(Right(P))
+		else
+			-> False
+
+function BuildBST (Infos:array [1..100] of integer,
+Neff:integer) → BinTree
+{Mengirimkan BST yang semua elemennya ada di Infos (tidak terurut dan tidak unik). Infos
+selalu diisi dari 1. Neff adalah indeks terakhir Infos yang terdefinisi, 0 jika kosong.}
+KAMUS LOKAL
+	function IsTreeEmpty (P: BinTree) → boolean
+	procedure InsSearchTree (input X: infotype, input/output P: BinTree)
+	P : BinTree
+	i : integer
+
+ALGORITMA
+	if (Neff = 0) then
+		P <- Nil
+	else
+		MakeTree(Infos[1],Nil,Nil,P)
+		if (Neff > 1) then
+			i <- 2
+			while (i <= Neff) do
+				InsSearchTree(Infos[i],P)
+				i <- i + 1
+	-> Q
+	

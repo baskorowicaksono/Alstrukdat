@@ -1,0 +1,148 @@
+Baskoro Adi W
+18219113
+
+{ Deklarasi tipe }
+type ElType: integer
+type Address: pointer to Node
+type Node: < Info: ElType,
+Next: Address >
+
+type List: Address
+{ Deklarasi variabel }
+L: List
+P: Address
+
+
+1.
+function CountPos(L: List) → integer
+{Menghitung banyaknya kemunculan bilangan positif}
+
+KAMUS LOKAL
+count: integer
+
+ALGORITMA
+ìf (IsEmpty(L)) then
+	-> 0
+else
+	P <- L
+	count <- 0
+	repeat
+		if (P↑.Info > 0) then
+			count <- count + 1
+		P <- P↑.Next
+	until (P = Nil)
+	-> count
+
+2.
+function Max(L: List) → integer
+{Menghasilkan nilai maksimum dari suatu list of integer yang tidak kosong}
+
+KAMUS LOKAL
+maxi : integer
+
+ALGORITMA
+P <- List
+maxi <- P↑.Info
+repeat
+	P <- P↑.Next
+	if (maxi < P↑.Info) then
+		maxi <- P↑.Info
+until (P = Nil)
+-> maxi
+
+3.
+function SearchPos(L: List) → address
+{Mencari address nilai positif pertama dalam list of integer}
+
+KAMUS LOKAL
+Found : boolean
+
+ALGORITMA
+if (IsEmpty(L)) then
+	->("tidak ada elemen positif")
+else
+	P <- L
+	Found <- false
+	while (P != Nil) and (Found = false) do
+		if (P↑.Info > 0) then
+			Found <- True
+		else
+			P <- P↑.Next
+	if (Found) then
+		-> P
+	else
+		->("tidak ada elemen positif")
+
+4.
+procedure DeleteNeg(input/output L:List)
+{Menghapus sebuah elemen dari list L yang bernilai < 0. List boleh kosong}
+
+ALGORITMA
+if (IsEmpty(L)) then
+	L <- Nil
+else
+	P <- L
+	while (P != Nil) do
+		if (P↑.Info < 0 and P = L) then
+			DeleteFirst(L,P)
+		else if (P↑.Info < 0 and P != L)
+			Prec <- L
+			while (Prec↑.Next != P) do
+				Prec <- Prec↑.Next
+			DeleteAfter(Prec,P)
+		else
+			P <- P↑.Next
+
+5.
+procedure CopyPos(input L1:List, output L2:List)
+{menyalin list L1 ke L2 dimana yang diambil adalah elemen L1 yang positif}
+{I.S. Asumsi L1 dan L2 terdefinisi, dengan L2 terdefinisi sebagai list kosong}
+{F.S. semua elemen positif L1 berhasil disalin ke L2}
+
+KAMUS LOKAL
+P1,P2 : address
+
+ALGORITMA
+	P1 <- L1
+	P2 <- L2
+	
+	while (P1 != Nil) then
+		P2↑.Info <- P1↑.Info
+		P2↑.Next <- P1↑.Next
+		P1 <- P1↑.Next
+	DeleteNeg(L2)
+
+6.
+procedure SortedIns(input/output L:List, input X:ElType)
+{prosedur insert dengan list of integer yang terurut menaik}
+{I.S. list L terdefinisi terurut menaik dan X tidak kosong}
+{F.S. X berhasil ditambahkan ke dalam L}
+
+ALGORITMA
+P <- L
+P1 <- alokasi(X)
+
+if IsEmpty(L) then
+	InsertFirst(L,X)
+else
+	prec <- L
+	while (P != Nil) and (P↑.Info <= X) do
+		prec < P
+		P <- P↑.Next
+	if P = Nil then
+		InsertLast(L,X)
+	else
+		InsertAfter(P1↑, prec)
+
+7.
+procedure UpdateList(input x,y: ElType, input/output L: List)
+{I.S. list L terdefinisi}
+{F.S. jika X ada di L, x diganti dengan y. Jika tidak ada x, L tetap}
+
+ALGORITMA
+if (not IsEmpty(L)) then
+	P <- L
+	if (P↑.Info  = x) then
+		P↑.Info <- y
+	else
+else

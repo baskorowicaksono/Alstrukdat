@@ -1,0 +1,67 @@
+Baskoro Adi Wicaksono
+18219113
+
+
+{asumsi bahwa primitif-primitif ADT Stack telah didefinisikan digunakan}
+
+Soal 1.
+
+procedure CopyStack(input Sin: Stack, output Sout: Stack)
+{ Membuat salinan Sin }
+{ I.S. Sin terdefinisi, Sout sembarang }
+{ F.S. Sout berisi salinan Sin yang identik }
+KAMUS
+i: integer
+X, First: infotype	{First adalah elemen pertama dalam stack yang akan di pop, sedangkan X adalah sisanya}
+ALGORITMA
+i <- 0
+while (i < Sin.Count-1)
+	pop(Sin,First)
+	repeat
+	pop(Sin,X)
+	push(Sout,X)
+	until (Sin.Count == i)
+	push(Sin,First)
+	repeat
+	pop(Sout,X)
+	push(Sin,X)
+	until (Sout.Count == 0)
+	i <- i + 1
+repeat
+pop(Sin,X)
+push(Sout,X)
+until (Sin.Count == 0) 	
+
+
+procedure InverseStack(input/output S: Stack)
+{ Membalik isi suatu stack }
+{ I.S. S terdefinisi }
+{ F.S. Isi S terbalik dari posisi semula }
+KAMUS
+Copied: Stack
+X: infotype
+
+ALGORITMA
+CopyStack(S,Copied)
+repeat 
+pop(Copied, X)
+push(S, X)
+until (Copy.Count == 0)
+
+
+
+function MergeStack(S1,S2: Stack) → Stack
+{ Menghasilkan sebuah stack yang merupakan hasil penggabungan S1
+dengan S2 dengan S1 berada di posisi lebih “bawah”. Urutan kedua
+stack harus sama seperti aslinya. }
+{ Stack baru diisi sampai seluruh elemen S1 dan S2 masuk ke dalam
+stack, atau jika stack baru sudah penuh, maka elemen yang
+dimasukkan adalah secukupnya yang dapat ditampung. }
+
+ALGORITMA
+InverseStack(S2)
+repeat 
+pop(S2, X)
+push(S1, X)
+until (S2.Count == 0)
+-> S1
